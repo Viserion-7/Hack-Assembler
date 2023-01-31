@@ -7,4 +7,5 @@ The final program is available in the folder.
 
 The other programs given are the standalone version of each process to convert them.
 
+Thanks to [Dev](https://github.com/Devnandan-py) for his contributions.
 Thank you !!
