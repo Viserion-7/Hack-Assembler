@@ -6,7 +6,7 @@ symbol_table={'R0':'0','R1':'1','R2':'2','R3':'3','R4':'4','R5':'5',
 'LCL':'1','ARG':'2','THIS':'3','THAT':'4','SCREEN':'16384',
 'KBD':'24576'}
 value_table = []
-v={}
+variables={}
 # This function gives value for labels according to line number
 def line_index(x,data):
     count = 0
@@ -14,7 +14,7 @@ def line_index(x,data):
         if (i[0]) == '(':
             if x == i[1:-2]:
                 value_table.append(count)
-                v[x]=count
+                variables[x]=count
                 return True
         else :
             count += 1 
@@ -25,12 +25,12 @@ with open(f) as rawfile:
         file = rawfile.readlines()
         bit_count = 15
         for l in file :
-	        # Checking whether it is an A instruction
+	    # Checking whether it is an A instruction
             if l[0]==('@'):
             	# Checking whether it is a predefined symbol
                 if l[1:-1] in symbol_table.keys():
                 	value_table.append(symbol_table[l[1:-1]])
-                	v[l[1:-1]]=symbol_table[l[1:-1]]
+                	variables[l[1:-1]]=symbol_table[l[1:-1]]
                 # Checking whether it is a label
                 elif line_index(l[1:-1],file) == True :
                     continue
@@ -38,15 +38,15 @@ with open(f) as rawfile:
                 elif l[1].isdigit():
                 	k = "{}".format(l[1:-1])
                 	value_table.append(k)
-                	v[k]=k
+                	variables[k]=k
 				# Checking whether symbol exists in table already
                 # if it doesnt exist adding it along with it's value
-                elif l[1:-1] not in v.keys():
+                elif l[1:-1] not in variables.keys():
                     bit_count += 1
                     value_table.append(bit_count)
-                    v[l[1:-1]]=bit_count
+                    variables[l[1:-1]]=bit_count
                 else:
-                    value_table.append(v[l[1:-1]])
+                    value_table.append(variables[l[1:-1]])
         # Converting to Binary
         for i in value_table:
             nullcode = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
