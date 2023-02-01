@@ -6,14 +6,14 @@ symbol_table={'R0':'0','R1':'1','R2':'2','R3':'3','R4':'4','R5':'5',
 'R12':'12','R13':'13','R14':'14','R15':'15','SP':'0',
 'LCL':'1','ARG':'2','THIS':'3','THAT':'4','SCREEN':'16384',
 'KBD':'24576'}
-v={}
+variables={}
 # This function gives value for labels according to line number
 def line_index(x,data):
     count = 0
     for i in data : 
         if (i[0]) == '(':
             if x == i[1:-2]:
-                v[x]=count
+                variables[x]=count
                 return True
         else :
             count += 1 
@@ -36,9 +36,9 @@ with open("white.asm") as rawfile:
                 	pass
                 # checking whether symbol exists in table already
                 # if it doesnt exist adding it along with it's value
-                elif l[1:-1] not in v.keys():
+                elif l[1:-1] not in variables.keys():
                     bit_count += 1
-                    v[l[1:-1]]=bit_count
+                    variables[l[1:-1]]=bit_count
                 else:
                 	pass
         b.write("Symbols \t Values\n")
