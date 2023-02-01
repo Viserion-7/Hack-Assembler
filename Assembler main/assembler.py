@@ -18,7 +18,7 @@ symbol_table={'R0':'0','R1':'1','R2':'2','R3':'3','R4':'4','R5':'5',
 'LCL':'1','ARG':'2','THIS':'3','THAT':'4','SCREEN':'16384',
 'KBD':'24576'}
 value_table = []
-v={}
+variables={}
 # This function gives value for labels according to line number
 def line_index(x,data):
     count = 0
@@ -26,7 +26,7 @@ def line_index(x,data):
         if (i[0]) == '(':
             if x == i[1:-2]:
                 value_table.append(count)
-                v[x]=count
+                variables[x]=count
                 return True
         else :
             count += 1 
@@ -90,7 +90,7 @@ with open(f) as a:
                 	# Checking whether it is a predefined symbol
                 	if l[1:-1] in symbol_table.keys():
                 		value_table.append(symbol_table[l[1:-1]])
-	                	v[l[1:-1]]=symbol_table[l[1:-1]]
+	                	variables[l[1:-1]]=symbol_table[l[1:-1]]
 	                # Checking whether it is a label
 	                elif line_index(l[1:-1],file) == True :
 	                	pass
@@ -100,12 +100,12 @@ with open(f) as a:
 	                	value_table.append(k)
 	                # Checking whether symbol exists in table already
 	                # if it doesnt exist adding it along with it's value
-	                elif l[1:-1] not in v.keys():
+	                elif l[1:-1] not in variables.keys():
 	                	bit_count += 1
 	                	value_table.append(bit_count)
-	                	v[l[1:-1]]=bit_count
+	                	variables[l[1:-1]]=bit_count
 	                else:
-	                	value_table.append(v[l[1:-1]])
+	                	value_table.append(variables[l[1:-1]])
 	                # Converting to Binary
 	                nullcode = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 	                x = int(value_table[f])
@@ -116,8 +116,8 @@ with open(f) as a:
 	                	nullcode[i]=a[i]
 	                i=0
 	                instr = ""
-	                for kj in (nullcode):
-	                	instr += str(kj)
+	                for v in (nullcode):
+	                	instr += str(v)
 	                b.write(instr+'\n')
             else:
                 	# C Instruction
