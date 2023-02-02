@@ -27,24 +27,24 @@ with open("white.asm") as rawfile:
             if l[0]==('@'):
             	# ignoring all predefined symbols
                 if l[1:-1] in symbol_table.keys():
-                	pass
+                    pass
                 # label name and value is saved to a dictionary
                 elif line_index(l[1:-1],file) == True :
                     continue
                 #ignoring all predefined symbols and numbers
                 elif l[1:-1].isdigit() :
-                	pass
+                    pass
                 # checking whether symbol exists in table already
                 # if it doesnt exist adding it along with it's value
                 elif l[1:-1] not in variables.keys():
                     bit_count += 1
                     variables[l[1:-1]]=bit_count
                 else:
-                	pass
+                    pass
         b.write("Symbols \t Values\n")
         for i,j in symbol_table.items():
             b.write("{:<15} {:<15}\n".format(i,j))
-        for i,j in v.items():
+        for i,j in variables.items():
             if isinstance(j,int):
                 j=str(j)
             b.write("{:<15} {:<15}\n".format(i,j))

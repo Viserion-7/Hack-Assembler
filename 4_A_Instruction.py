@@ -29,16 +29,16 @@ with open(f) as rawfile:
             if l[0]==('@'):
             	# Checking whether it is a predefined symbol
                 if l[1:-1] in symbol_table.keys():
-                	value_table.append(symbol_table[l[1:-1]])
-                	variables[l[1:-1]]=symbol_table[l[1:-1]]
+                    value_table.append(symbol_table[l[1:-1]])
+                    variables[l[1:-1]]=symbol_table[l[1:-1]]
                 # Checking whether it is a label
                 elif line_index(l[1:-1],file) == True :
                     continue
                 # Checking whether it a digit
                 elif l[1].isdigit():
-                	k = "{}".format(l[1:-1])
-                	value_table.append(k)
-                	variables[k]=k
+                    k = "{}".format(l[1:-1])
+                    value_table.append(k)
+                    variables[k]=k
 				# Checking whether symbol exists in table already
                 # if it doesnt exist adding it along with it's value
                 elif l[1:-1] not in variables.keys():

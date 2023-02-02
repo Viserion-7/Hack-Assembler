@@ -88,54 +88,54 @@ with open(f) as a:
 		        # Checking whether it is an A instruction                
                 if l[0]==('@'):
                 	# Checking whether it is a predefined symbol
-                	if l[1:-1] in symbol_table.keys():
-                		value_table.append(symbol_table[l[1:-1]])
-	                	variables[l[1:-1]]=symbol_table[l[1:-1]]
+                    if l[1:-1] in symbol_table.keys():
+                        value_table.append(symbol_table[l[1:-1]])
+                        variables[l[1:-1]]=symbol_table[l[1:-1]]
 	                # Checking whether it is a label
-	                elif line_index(l[1:-1],file) == True :
-	                	pass
+                    elif line_index(l[1:-1],file) == True :
+                        pass
 	                # Checking whether it a digit
-	                elif l[1].isdigit():
-	                	k = "{}".format(l[1:-1])
-	                	value_table.append(k)
+                    elif l[1].isdigit():
+                        k = "{}".format(l[1:-1])
+                        value_table.append(k)
 	                # Checking whether symbol exists in table already
 	                # if it doesnt exist adding it along with it's value
-	                elif l[1:-1] not in variables.keys():
-	                	bit_count += 1
-	                	value_table.append(bit_count)
-	                	variables[l[1:-1]]=bit_count
-	                else:
-	                	value_table.append(variables[l[1:-1]])
+                    elif l[1:-1] not in variables.keys():
+                        bit_count += 1
+                        value_table.append(bit_count)
+                        variables[l[1:-1]]=bit_count
+                    else:
+                        value_table.append(variables[l[1:-1]])
 	                # Converting to Binary
-	                nullcode = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-	                x = int(value_table[f])
+                    nullcode = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+                    x = int(value_table[f])
 	                # Converting to binary and replacing elements in list
-	                f+=1
-	                a = str(bin(x).replace("0b",""))
-	                for i in range(-1,-(len(a)+1),-1):
-	                	nullcode[i]=a[i]
-	                i=0
-	                instr = ""
-	                for v in (nullcode):
-	                	instr += str(v)
-	                b.write(instr+'\n')
+                    f+=1
+                    a = str(bin(x).replace("0b",""))
+                    for i in range(-1,-(len(a)+1),-1):
+                        nullcode[i]=a[i]
+                    i=0
+                    instr = ""
+                    for v in (nullcode):
+                        instr += str(v)
+                    b.write(instr+'\n')
             else:
-                	# C Instruction
-                	# we need to spilt the whole code into 3 parts dest comp and jump
-                	# Replacing = with a space 
-                	c = (l.strip()).replace('='," ")
-                	# Replacing ; with a space
-                	d = c.replace(';'," ")
-                	# Splitting the instruction to 3 parts
-                	e = d.split(" ")
-                	# Checking which all part exists in the instruction
-                	if len(e) == 3:
-                		final=instruction(e[0],e[1],e[2])
-                	elif len(e) == 2:
-                		if '=' in l:
-                			final=instruction(e[0],e[1],0)        
-                		else:
-                			final=instruction(0,e[0],e[1])
-                	elif len(e) == 1:
-                		final=instruction(0,e[0],0)
-                	b.write(final+'\n')
+                # C Instruction
+                # we need to spilt the whole code into 3 parts dest comp and jump
+                # Replacing = with a space 
+                c = (l.strip()).replace('='," ")
+                # Replacing ; with a space
+                d = c.replace(';'," ")
+                # Splitting the instruction to 3 parts
+                e = d.split(" ")
+                # Checking which all part exists in the instruction
+                if len(e) == 3:
+                    final=instruction(e[0],e[1],e[2])
+                elif len(e) == 2:
+                    if '=' in l:
+                        final=instruction(e[0],e[1],0)        
+                    else:
+                        final=instruction(0,e[0],e[1])
+                elif len(e) == 1:
+                    final=instruction(0,e[0],0)
+                b.write(final+'\n')
