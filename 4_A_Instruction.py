@@ -49,13 +49,5 @@ with open(f) as rawfile:
                     value_table.append(variables[l[1:-1]])
         # Converting to Binary
         for i in value_table:
-            nullcode = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-            x = int(i)
-            # Converting to binary and replacing elements in list
-            a = str(bin(x).replace("0b",""))
-            for i in range(-1,-(len(a)+1),-1):
-                nullcode[i]=a[i]
-            instruction = ""
-            for i in nullcode:
-                instruction += str(i)
+            instruction = format(int(i),'016b')
             b.write(instruction+'\n')

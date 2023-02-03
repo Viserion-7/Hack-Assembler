@@ -107,17 +107,8 @@ with open(f) as a:
                     else:
                         value_table.append(variables[l[1:-1]])
 	                # Converting to Binary
-                    nullcode = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-                    x = int(value_table[f])
-	                # Converting to binary and replacing elements in list
+                    instr = format(int(value_table[f]),'016b')
                     f+=1
-                    a = str(bin(x).replace("0b",""))
-                    for i in range(-1,-(len(a)+1),-1):
-                        nullcode[i]=a[i]
-                    i=0
-                    instr = ""
-                    for v in (nullcode):
-                        instr += str(v)
                     b.write(instr+'\n')
             else:
                 # C Instruction
