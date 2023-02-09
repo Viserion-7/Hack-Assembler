@@ -12,6 +12,6 @@ Second one is just recognising the symbols.
 Third one is creating a symbol table.
 Last two are standalone A and C instruction.
 
-Thanks to [Dev](https://github.com/Devnandan-py) for his contributions.
+Thanks to [Dev](https://github.com/Nandan-9) for his contributions.
 
 Thank you !!
