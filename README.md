@@ -7,5 +7,11 @@ The final program is available in the folder.
 
 The other programs given are the standalone version of each process to convert them.
 
+First one is removing white spaces.
+Second one is just recognising the symbols.
+Third one is creating a symbol table.
+Last two are standalone A and C instruction.
+
 Thanks to [Dev](https://github.com/Devnandan-py) for his contributions.
+
 Thank you !!
