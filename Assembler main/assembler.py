@@ -53,11 +53,8 @@ def instruction(x,y,z):
     return new
 
 def remwhite(file):
-    i=0
-    n=len(file)
     white=[]
-    while i<n:
-        l=file[i]
+    for l in file:
         l=l.replace(' ','')
         # removes all spaces        
         if  l[0]=='\n' or l[0]=='/':
@@ -67,14 +64,8 @@ def remwhite(file):
             if '/' in l:
                 # removes inline comments            
                 x=l.index('/')
-                l1=''
-                for j in range(x):
-                    l1=l1+l[j]
-                l=l1+'\n'
-            if i==n-1:
-                l.strip()
+                l=l[:x]+'\n'
             white.append(l)
-        i+=1
     return white
 f=input("Enter filename with extension : ")
 with open(f) as a:

@@ -4,11 +4,8 @@
 f=input("Enter filename with extension : ")
 with open(f, 'r') as a:
     with open('white.asm', 'w+') as b:
-        i=0
         file=a.readlines()
-        n=len(file)
-        while i<n:        
-            l=file[i]
+        for l in file:
             l=l.replace(' ','')	
             # removes all spaces
             if  l[0]=='\n' or l[0]=='/':
@@ -18,11 +15,5 @@ with open(f, 'r') as a:
                 if '/' in l:
                 # removes inline comments
                     x=l.index('/')
-                    l1=''
-                    for j in range(x):
-                        l1=l1+l[j]
-                    l=l1+'\n'
-                if i==n-1:
-                    l.strip()
+                    l=l[:x]+'\n'
                 b.write(l)
-            i+=1
