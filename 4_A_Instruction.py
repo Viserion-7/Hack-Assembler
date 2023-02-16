@@ -32,11 +32,11 @@ with open(file_name) as raw:
             	# Checking whether it is a predefined symbol
                 if line[1:-1] in symbol_table.keys():
                     value_table.append(symbol_table[line[1:-1]])
-                # Checking whether it a digit
+                # Checking whether it is a digit
                 elif line[1].isdigit():
                     value = "{}".format(line[1:-1])
                     value_table.append(value)
-                # Checking whether it a label
+                # Checking whether it is a label
                 # Gives value for labels according to line number
                 elif line[1].isupper():
                     line_num=0 # Line number
