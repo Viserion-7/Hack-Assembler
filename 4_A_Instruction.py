@@ -6,48 +6,53 @@ symbol_table={'R0':'0','R1':'1','R2':'2','R3':'3','R4':'4','R5':'5',
 'LCL':'1','ARG':'2','THIS':'3','THAT':'4','SCREEN':'16384',
 'KBD':'24576'}
 value_table = []
-variables={}
-# This function gives value for labels according to line number
-def line_index(x,data):
-    count = 0
-    for i in data : 
-        if (i[0]) == '(':
-            if x == i[1:-2]:
-                value_table.append(count)
-                variables[x]=count
-                return True
-        else :
-            count += 1 
 
-f=input("Enter filename with extension : ")
-with open(f) as rawfile:
-    with open("ainstr.asm","w+") as b:
-        file = rawfile.readlines()
-        bit_count = 15
-        for l in file :
+def remove_white(file):
+    white=[]
+    for line in file:
+        line=line.replace(' ','')	
+        if  line[0]=='\n' or line[0]=='/':
+            pass
+        else:
+            if '/' in line:
+                comment_index = line.index('/')
+                line = line[:comment_index]+'\n'
+            white.append(line)
+    return white
+
+file_name=input("Enter filename with extension : ")
+with open(file_name) as raw:
+    with open("ainstr.asm","w+") as out:
+        file = raw.readlines()
+        file = remove_white(file)
+        bit_count = 16
+        for line in file :
 	    # Checking whether it is an A instruction
-            if l[0]==('@'):
+            if line[0]==('@'):
             	# Checking whether it is a predefined symbol
-                if l[1:-1] in symbol_table.keys():
-                    value_table.append(symbol_table[l[1:-1]])
-                    variables[l[1:-1]]=symbol_table[l[1:-1]]
-                # Checking whether it is a label
-                elif line_index(l[1:-1],file) == True :
-                    continue
+                if line[1:-1] in symbol_table.keys():
+                    value_table.append(symbol_table[line[1:-1]])
                 # Checking whether it a digit
-                elif l[1].isdigit():
-                    k = "{}".format(l[1:-1])
-                    value_table.append(k)
-                    variables[k]=k
-				# Checking whether symbol exists in table already
-                # if it doesnt exist adding it along with it's value
-                elif l[1:-1] not in variables.keys():
+                elif line[1].isdigit():
+                    value = "{}".format(line[1:-1])
+                    value_table.append(value)
+                # Checking whether it a label
+                # Gives value for labels according to line number
+                elif line[1].isupper():
+                    line_num=0 # Line number
+                    for temp in file:
+                        if temp[0] =='(':
+                            if line[1:-1] == temp[1:-2]:
+                                symbol_table[line[1:-1]] = str(line_num)
+                                value_table.append(symbol_table[line[1:-1]])
+                        else:
+                            line_num+=1
+                else:
                     bit_count += 1
                     value_table.append(bit_count)
-                    variables[l[1:-1]]=bit_count
-                else:
-                    value_table.append(variables[l[1:-1]])
+                    symbol_table[line[1:-1]]=bit_count
+        print(value_table)
         # Converting to Binary
         for i in value_table:
             instruction = format(int(i),'016b')
-            b.write(instruction+'\n')
+            out.write(instruction+'\n')
