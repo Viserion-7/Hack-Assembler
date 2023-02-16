@@ -1,8 +1,8 @@
 # This is the standalone code for removing white spaces from an asm file.
 # change file name here for different asm files
 # current file used is from project 6/rect/rect.asm
-filename=input("Enter filename with extension : ")
-with open(filename, 'r') as raw:
+file_name=input("Enter filename with extension : ")
+with open(file_name, 'r') as raw:
     with open('white.asm', 'w+') as white:
         file=raw.readlines()
         for line in file:
