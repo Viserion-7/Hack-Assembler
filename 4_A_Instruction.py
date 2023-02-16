@@ -51,7 +51,6 @@ with open(file_name) as raw:
                     bit_count += 1
                     value_table.append(bit_count)
                     symbol_table[line[1:-1]]=bit_count
-        print(value_table)
         # Converting to Binary
         for i in value_table:
             instruction = format(int(i),'016b')
