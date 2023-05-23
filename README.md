@@ -3,7 +3,7 @@
 This is a program to convert hack assembly to binary.
 Part of [nand2tetris](https://www.nand2tetris.org/) project 6
 
-The program is done in two languages [Python](/Assembler Python) and [Java](Assembler Java).
+The program is done in two languages [Python](https://github.com/Viserion-7/Assembly-to-Binary-Program/tree/main/Assembler%20Python) and [Java](https://github.com/Viserion-7/Assembly-to-Binary-Program/tree/main/Assembler%20Java).
 
 The other programs given are the standalone version of each process to convert them.
 
