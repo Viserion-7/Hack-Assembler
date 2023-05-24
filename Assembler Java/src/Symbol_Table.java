@@ -12,7 +12,7 @@ import java.util.LinkedHashMap;
 public class Symbol_Table {
 
     public static void main(String[] args) {
-        Map<String, String> SymbolTable = new LinkedHashMap<>();
+        LinkedHashMap<String, String> SymbolTable = new LinkedHashMap<>();
         SymbolTable.put("R0", "0");
         SymbolTable.put("R1", "1");
         SymbolTable.put("R2", "2");
@@ -63,9 +63,11 @@ public class Symbol_Table {
                     String symbol = line.substring(1);
                     if (SymbolTable.containsKey(symbol)) {
                         ;
-                    } else if (symbol.matches("\\d+")) {
+                    }
+                    else if (symbol.matches("\\d+")) {
                         ;
-                    } else if (Character.isUpperCase(symbol.charAt(0))) {
+                    }
+                    else if (Character.isUpperCase(symbol.charAt(0))) {
                         int lineNum = 0 ;
                         for (String LineCounter : FileLines) {
                             if (LineCounter.startsWith("(")) {
@@ -76,7 +78,6 @@ public class Symbol_Table {
                                 lineNum++;
                             }
                         }
-
                     } else {
                         System.out.println(symbol);
                         bitCount++;

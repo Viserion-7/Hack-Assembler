@@ -1,17 +1,16 @@
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.FileNotFoundException;
 
 public class A_Instruction {
     public static void main(String[] args) {
-        Map<String, String> SymbolTable = new LinkedHashMap<>();
+        LinkedHashMap<String, String> SymbolTable = new LinkedHashMap<>();
         SymbolTable.put("R0", "0");
         SymbolTable.put("R1", "1");
         SymbolTable.put("R2", "2");

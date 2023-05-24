@@ -15,6 +15,8 @@ Third one is creating a symbol table.
 
 Last two are standalone A and C instruction.
 
+The final program is in Assembler.py file.
+
 Thanks to [Dev](https://github.com/Nandan-9) for his contributions.
 
 Thank you !!
