@@ -1,20 +1,18 @@
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Scanner;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.FileNotFoundException;
 
 public class Assembler {
-    public static final LinkedHashMap<String, String> SymbolTable = new LinkedHashMap<>();
-    public static final LinkedHashMap<String, LinkedHashMap<String, String>> comp_value = new LinkedHashMap<>();
-    public static final LinkedHashMap<String, String> dest_value = new LinkedHashMap<>();
-    public static final LinkedHashMap<String, String> jump_value = new LinkedHashMap<>();
-    public static final LinkedHashMap<String, String> compValueMap0 = new LinkedHashMap<>();
-    public static final LinkedHashMap<String, String> compValueMap1 = new LinkedHashMap<>();
+    public static final ArrayList<String> FileLines = No_White_Space.Remove_White_Space();
+    public static final HashMap<String, String> SymbolTable = new HashMap<>();
+    public static final HashMap<String, HashMap<String, String>> comp_value = new HashMap<>();
+    public static final HashMap<String, String> dest_value = new HashMap<>();
+    public static final HashMap<String, String> jump_value = new HashMap<>();
+    public static final HashMap<String, String> compValueMap0 = new HashMap<>();
+    public static final HashMap<String, String> compValueMap1 = new HashMap<>();
 
     static {
         SymbolTable.put("R0", "0");
@@ -127,29 +125,20 @@ public class Assembler {
     public static void main(String[] args) {
         System.out.println(" Started Assembler.java");
         try {
-            Scanner sc = new Scanner(System.in);
-            System.out.println("Enter the file name");
-            String fileName = sc.nextLine();
-            sc.close();
-            BufferedReader myReader = new BufferedReader(new FileReader(fileName));
-
-            String LineRead;
-            List<String> FileLines = new ArrayList<>();
-            while ((LineRead = myReader.readLine()) != null) {
-                LineRead = LineRead.replaceAll(" ", "");
-                if (!LineRead.isEmpty() && !LineRead.startsWith("//")) {
-                    if (LineRead.contains("//")) {
-                        LineRead = LineRead.substring(0, LineRead.indexOf("//"));
-                    }
-                    FileLines.add(LineRead);
+            BufferedWriter myWriter = new BufferedWriter(new FileWriter("out.hack"));
+            List<String> Value_Table = new ArrayList<>();
+            int bitCount = 15;
+            int A_instr_counter = 0;
+            int lineNum = 0;
+            for (String line : FileLines) {
+                if (line.startsWith("(")) {
+                    String symbol = line.substring(1, line.length() - 1);
+                    SymbolTable.put(symbol, Integer.toString(lineNum));
+                }
+                else{
+                    lineNum++;
                 }
             }
-            myReader.close();
-            BufferedWriter myWriter = new BufferedWriter(new FileWriter("out.hack"));
-//            BufferedWriter myWriter = new BufferedWriter(new FileWriter(fileName.substring(0, fileName.indexOf(".")) + ".hack"));
-            List<String> Value_Table = new ArrayList<>();
-            int bitCount = 16;
-            int A_instr_counter = 0;
             String Binary;
             String WriteValue;
             for (String line : FileLines) {
@@ -162,18 +151,6 @@ public class Assembler {
                             Value_Table.add(SymbolTable.get(symbol));
                         } else if (symbol.matches("\\d+")) {
                             Value_Table.add(symbol);
-                        } else if (Character.isUpperCase(symbol.charAt(0))) {
-                            int lineNum = 0 ;
-                            for (String LineCounter : FileLines) {
-                                if (LineCounter.startsWith("(")) {
-                                    if (symbol.equals(LineCounter.substring(1, LineCounter.length() - 1))) {
-                                        SymbolTable.put(symbol, Integer.toString(lineNum));
-                                        Value_Table.add(Integer.toString(lineNum));
-                                    }
-                                } else {
-                                    lineNum++;
-                                }
-                            }
                         } else {
                             bitCount++;
                             SymbolTable.put(symbol, Integer.toString(bitCount));
@@ -187,12 +164,7 @@ public class Assembler {
                     }
 
                 // C-instruction
-
                 } else {
-
-                    if (line.startsWith("@") || line.startsWith("(")) {
-                        continue;
-                    } else {
                         String equalSpace = line.replace("=", " ");
                         String semiColonSpace = equalSpace.replace(";", " ");
                         String[] instr = semiColonSpace.split(" ");
@@ -213,7 +185,7 @@ public class Assembler {
                         }
                         System.out.println(Binary);
                         myWriter.write(Binary + "\n");
-                    }
+
                 }
             }
             myWriter.close();

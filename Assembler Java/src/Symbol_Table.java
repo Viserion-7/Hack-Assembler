@@ -1,18 +1,14 @@
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.FileNotFoundException;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.LinkedHashMap;
 
 public class Symbol_Table {
+    public static final ArrayList<String> FileLines = No_White_Space.Remove_White_Space();
+    public static final LinkedHashMap<String, String> SymbolTable = new LinkedHashMap<>();
 
-    public static void main(String[] args) {
-        LinkedHashMap<String, String> SymbolTable = new LinkedHashMap<>();
+    static {
         SymbolTable.put("R0", "0");
         SymbolTable.put("R1", "1");
         SymbolTable.put("R2", "2");
@@ -36,50 +32,30 @@ public class Symbol_Table {
         SymbolTable.put("THAT", "4");
         SymbolTable.put("SCREEN", "16384");
         SymbolTable.put("KBD", "24576");
+    }
 
+    public static void main(String[] args) {
         try {
-            Scanner sc = new Scanner(System.in);
-            System.out.println("Enter the file name");
-            String fileName = sc.nextLine();
-            sc.close();
-            BufferedReader myReader = new BufferedReader(new FileReader(fileName));
-
-            String LineRead;
-            List<String> FileLines = new ArrayList<>();
-            while ((LineRead = myReader.readLine()) != null) {
-                LineRead = LineRead.replaceAll(" ", "");
-                if (!LineRead.isEmpty() && !LineRead.startsWith("//")) {
-                    if (LineRead.contains("//")) {
-                        LineRead = LineRead.substring(0, LineRead.indexOf("//"));
-                    }
-                    FileLines.add(LineRead);
+            int bitCount = 15;
+            int lineNum = 0;
+            for (String line : FileLines) {
+                if (line.startsWith("(")) {
+                    String symbol = line.substring(1, line.length() - 1);
+                    SymbolTable.put(symbol, Integer.toString(lineNum));
+                }
+                else{
+                    lineNum++;
                 }
             }
-            myReader.close();
-
-            int bitCount = 15;
             for (String line : FileLines) {
                 if (line.startsWith("@")) {
                     String symbol = line.substring(1);
                     if (SymbolTable.containsKey(symbol)) {
-                        ;
+                        // No action needed
                     }
                     else if (symbol.matches("\\d+")) {
-                        ;
-                    }
-                    else if (Character.isUpperCase(symbol.charAt(0))) {
-                        int lineNum = 0 ;
-                        for (String LineCounter : FileLines) {
-                            if (LineCounter.startsWith("(")) {
-                                if (symbol.equals(LineCounter.substring(1, LineCounter.length() - 1))) {
-                                    SymbolTable.put(symbol, Integer.toString(lineNum));
-                                }
-                            } else {
-                                lineNum++;
-                            }
-                        }
-                    } else {
-                        System.out.println(symbol);
+                        // No action needed
+                    }else {
                         bitCount++;
                         SymbolTable.put(symbol, Integer.toString(bitCount));
                     }
@@ -93,10 +69,6 @@ public class Symbol_Table {
                 myWriter.write(String.format("%-15s %-15s%n", entry.getKey(), entry.getValue()));
             }
             myWriter.close();
-
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found");
-            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }

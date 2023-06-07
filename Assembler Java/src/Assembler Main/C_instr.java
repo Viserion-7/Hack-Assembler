@@ -1,16 +1,7 @@
-import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.FileNotFoundException;
 
-public class C_Instruction {
-    public static final ArrayList<String> FileLines = No_White_Space.Remove_White_Space();
-    public static final HashMap<String, HashMap<String, String>> comp_value = new HashMap<>();
+public class C_instr {
     public static final HashMap<String, String> dest_value = new HashMap<>();
     public static final HashMap<String, String> jump_value = new HashMap<>();
     public static final HashMap<String, String> compValueMap0 = new HashMap<>();
@@ -48,9 +39,6 @@ public class C_Instruction {
         compValueMap1.put("D&M", "000000");
         compValueMap1.put("D|M", "010101");
 
-        comp_value.put("0", compValueMap0);
-        comp_value.put("1", compValueMap1);
-
         dest_value.put("0", "000");
         dest_value.put("M", "001");
         dest_value.put("D", "010");
@@ -69,15 +57,15 @@ public class C_Instruction {
         jump_value.put("JLE", "110");
         jump_value.put("JMP", "111");
     }
-    public static String instruction(String dest,String comp,String jump){
+    public static String convertor(String dest,String comp,String jump){
         String binary = "111";
-        if (comp_value.get("0").containsKey(comp))
+        if (compValueMap0.containsKey(comp))
         {
-            binary += "0"+comp_value.get("0").get(comp);
+            binary += "0"+compValueMap0.get(comp);
         }
         else
         {
-            binary += "1"+comp_value.get("1").get(comp);
+            binary += "1"+compValueMap1.get(comp);
         }
 
         if (!dest.equals("0"))
@@ -99,49 +87,31 @@ public class C_Instruction {
         }
         return binary;
     }
+    public static String C_instruction(String line, ArrayList<String> FileLines) {
 
-    public static void main(String[] args) {
-        try {
-            BufferedWriter myWriter = new BufferedWriter(new FileWriter("C_Instruction.asm"));
-            for ( String line : FileLines) {
-                String Binary;
-                if (line.startsWith("@") || line.startsWith("(")) {}
-                else {
-                    String equalSpace = line.replace("=", " ");
-                    String semiColonSpace = equalSpace.replace(";", " ");
-                    String[] instr = semiColonSpace.split(" ");
-                    String dest = "0";
-                    String comp = "0";
-                    String jump = "0";
-                    if (instr.length == 3 ) {
-                        dest = instr[0];
-                        comp = instr[1];
-                        jump = instr[2];
-                    }
-                    else if (instr.length == 2) {
-                        if (line.contains("=")) {
-                            dest = instr[0];
-                            comp = instr[1];
-                        }
-                        else {
-                            comp = instr[0];
-                            jump = instr[1];
-                        }
-                    }
-                    else {
-                        comp = instr[0];
-                    }
-                    Binary = instruction(dest, comp, jump);
-                    System.out.println(Binary);
-                    myWriter.write(Binary + '\n');
-                }
+        String equalSpace = line.replace("=", " ");
+        String semiColonSpace = equalSpace.replace(";", " ");
+        String[] instr = semiColonSpace.split(" ");
+        String dest = "0";
+        String comp = "0";
+        String jump = "0";
+        if (instr.length == 3) {
+            dest = instr[0];
+            comp = instr[1];
+            jump = instr[2];
+        } else if (instr.length == 2) {
+            if (line.contains("=")) {
+                dest = instr[0];
+                comp = instr[1];
+            } else {
+                comp = instr[0];
+                jump = instr[1];
             }
-            myWriter.close();
-        }catch (FileNotFoundException e) {
-            System.out.println("File not found");
-            e.printStackTrace();
-        }catch (Exception e) {
-            e.printStackTrace();
+        } else {
+            comp = instr[0];
         }
+        String Binary = convertor(dest, comp, jump);
+        return Binary;
+
     }
 }

@@ -14,6 +14,8 @@ Third one is creating a symbol table.
 
 Last two are standalone A and C instruction.
 
-The final program is in Assembler.java file.
+The final program is in the Assembler Main folder Assembler.java file.
+
+There is also a similar file which is Assembler_modified.java which calls the methods from different files to run the program.
 
 Thank you !!
